@@ -1,0 +1,23 @@
+version: '2'
+services:
+ rabbitmq:
+  image: rabbitmq:management
+  ports:
+    - "5672:5672" #JMS Port
+    - "15672:15672" #Management Port - default user:pass = guest:guest
+ es-db:
+  image: elasticsearch:2.4.3-alpine
+  command: "elasticsearch -Des.cluster.name=web_app_demo -Des.node.name=demo_node"
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+ mysql-db:
+  image: mysql:5.7
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: demo
+    MYSQL_DATABASE: es_demo
+    MYSQL_USER: demo
+    MYSQL_PASSWORD: demo
+  ports:
+    - "3306:3306"
